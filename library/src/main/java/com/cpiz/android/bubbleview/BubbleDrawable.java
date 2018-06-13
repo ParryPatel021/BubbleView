@@ -1,14 +1,17 @@
 package com.cpiz.android.bubbleview;
 
+import android.annotation.TargetApi;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.ColorFilter;
+import android.graphics.Outline;
 import android.graphics.Paint;
 import android.graphics.Path;
 import android.graphics.PixelFormat;
 import android.graphics.PointF;
 import android.graphics.RectF;
 import android.graphics.drawable.Drawable;
+import android.os.Build;
 import android.support.annotation.NonNull;
 
 import static com.cpiz.android.bubbleview.Utils.bound;
@@ -245,6 +248,21 @@ class BubbleDrawable extends Drawable {
     @Override
     public int getOpacity() {
         return PixelFormat.UNKNOWN;
+    }
+
+    @TargetApi(Build.VERSION_CODES.LOLLIPOP)
+    @Override
+    public void getOutline(@NonNull Outline outline) {
+        Path outlinePath = new Path();
+
+        buildWithNoneArrow(mBorderShape, outlinePath);
+
+        try {
+            outline.setConvexPath(outlinePath);
+        }
+        catch (IllegalArgumentException e) {
+            // failsafe in case of convex problem
+        }
     }
 
     private void updatePath(Shape shape, Path path) {

@@ -40,6 +40,7 @@
             android:padding="30dp"
             android:text="Arrow"
             android:textColor="@android:color/white"
+            android:elevation="8dp"
             app:bb_arrowHeight="20dp"
             app:bb_arrowTo="@id/view_anchor"
             app:bb_arrowWidth="30dp"
